@@ -9,6 +9,8 @@ The notepad module described here is comparable to traditional Natlink macros.  
 
 = Source code =
 
+The source code listed below is also included in the Dragonfly repository [http://code.google.com/p/dragonfly/source/browse/trunk/examples/notepad_example.py here].
+
 {{{
 
 from dragonfly.grammar.grammar     import Grammar
