@@ -1,0 +1,76 @@
+#summary Description of a simple bare-bones module for notepad
+
+= Introduction =
+
+The Dragonfly library brings powerful tools to the fingertips of end users.  This page describes a very simple and bare-bones module for controlling notepad.  This module introduces various fundamental concepts of the Dragonfly library.  It can also easily be used as a module template for controlling other applications.
+
+The notepad module described here is comparable to traditional Natlink macros.  It can be loaded and used by the normal Natlink system.  In general, this means that this notepad module should be placed in the `My Documents\Natlink` folder.  The main difference between this module and traditional Natlink macros is the object model for defining grammars and processing recognitions.
+
+
+= Source code =
+
+{{{
+
+from dragonfly.grammar.grammar     import Grammar
+from dragonfly.grammar.context     import AppContext
+from dragonfly.grammar.actionrule  import ActionRule
+from dragonfly.grammar.elements    import Dictation
+from dragonfly.actions.actions     import Key, Text
+
+
+#---------------------------------------------------------------------------
+# Create this module's grammar and the context under which it'll be active.
+
+grammar_context = AppContext(executable="notepad")
+grammar = Grammar("notepad_example", context=grammar_context)
+
+
+#---------------------------------------------------------------------------
+# Create an action rule which maps things you can say to actions.
+
+command_rule = ActionRule(
+        name="commands",    # Name of this rule.
+        action_map={        # Dict of things to say -> actions.
+                "save [file]":            Key("c-s"),
+                "save [file] as":         Key("a-f, a"),
+                "save [file] as <dict>":  Key("a-f, a/20") + Text("%(text)s"),
+                "find <dict>":            Key("c-f/20") + Text("%(text)s\n"),
+                },
+        elements={          # Special elements in the keys of action_map.
+                "dict": Dictation("text"),
+                },
+        exported=True       # Export this rule.
+        )
+
+# Add the action rule to the grammar instance.
+grammar.add_rule(command_rule)
+
+
+#---------------------------------------------------------------------------
+# Load the grammar instance and define how to unload it.
+
+grammar.load()
+
+# Unload function which will be called by natlink at unload time.
+def unload():
+    global grammar
+    if grammar: grammar.unload()
+    grammar = None
+}}}
+
+
+= Discussion =
+
+The notepad module presented above shows how to use several of Dragonfly's basic building blocks.
+
+== Grammar ==
+
+A Dragonfly `Grammar` ...
+
+== Rule ==
+
+A Dragonfly `Rule` ...
+
+== Loading and unloading ==
+
+Loading and unloading...
