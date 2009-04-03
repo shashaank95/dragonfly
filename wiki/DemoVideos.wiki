@@ -1,0 +1,5 @@
+#summary Demonstration videos of Dragonfly
+
+= Mini discussion and demo of continuous command recognition =
+
+<wiki:video url="http://video.google.com/videoplay?docid=-5972158742492657396">
